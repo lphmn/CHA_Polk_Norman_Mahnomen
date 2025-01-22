@@ -29,6 +29,7 @@ Regarding social isolation, the feeling of being socially isolated among adults 
 
 ::: {#fig-conditionDepression}
 ```{r}
+#| label: f_places2022Depression
 #| warning: false
 #| include: false
 
@@ -151,6 +152,7 @@ gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
 
 ::: {#fig-mssDepression}
 ```{r}
+#| label: f_mss9GradeDepression
 #| warning: false
 #| include: false
 
@@ -259,6 +261,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-pufAmh}
 ```{r}
+#| label: f_pufAmh
 #| warning: false
 #| include: false
 
@@ -359,6 +362,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-mssCommunityCare}
 ```{r}
+#| label: f_mss9GradeComunityCare
 #| warning: false
 #| include: false
 
@@ -466,6 +470,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-mssNoDrugUse}
 ```{r}
+#| label: f_mss11GradeNoDrugUse
 #| warning: false
 #| include: false
 

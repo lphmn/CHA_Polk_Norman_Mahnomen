@@ -79,4 +79,7 @@ toc-title: "Table of Contents"
 
 editor: visual
 
-# Thank you mcanouil for your great online feedback for subcaptions and captions design was based on this dicussion https://github.com/quarto-dev/quarto-cli/discussions/7308  
+# Thank you mcanouil for your great online feedback for subcaptions and captions design was based on this dicussion https://github.com/quarto-dev/quarto-cli/discussions/7308
+# Thank you Cameron Patrick for your great tutorial on customizing Quarto Title pages https://cameronpatrick.com/post/2023/07/quarto-thesis-formatting/#title-page
+# Thank you nmfs-opensci for explaining how to comment in Pandoc and Latex. My .tex files had lines that I thought I commented out but were running and its because I required both syntaxs to create a comment https://nmfs-opensci.github.io/quarto_titlepages_v1/05-pandoc-templates.html
+# THank you to the developer's who converted this to english https://komascript.de/%7Emkohm/scrguide-en.pdf

@@ -27,6 +27,7 @@ Understanding the general, physical, and mental health status of a community is 
 
 ::: {#fig-healthGeneral}
 ```{r}
+#| label: f_places2022GeneralHealth
 #| warning: false
 #| include: false
 
@@ -40,17 +41,11 @@ filtered_data <- f_places2022 |>
     , toolTipTextValue2 = paste0(formattable::comma(data_value,0), " (", formattable::comma(low_confidence_limit,0), "-", formattable::comma(high_confidence_limit,0), ")")
   )
 
-filtered_ageAdjustedTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "AgeAdjPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Age-Adjusted") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
-
-filtered_crudeTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "CrdPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Crude") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
+filtered_dataTbl <- filtered_data |> 
+    dplyr::arrange(locationid, year) |> 
+    dplyr::mutate(prevalenceType = ifelse(datavaluetypeid == "CrdPrv", "Crude", "Age-Adjusted"),
+                  tab = ifelse(datavaluetypeid == "CrdPrv", "Crude Prevalence", "Age-Adjusted Prevalence")) |> 
+    dplyr::select(prevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit, tab)
   
 figCap_plotTitle <- paste(filtered_data$measure[1], filtered_data$brfssYr[1])
 figSubcap <- "Data Source: @cdc2024Places"
@@ -80,33 +75,29 @@ gbFun_plotHTML(p, figCap_plotTitle)
 }
 ```
 
-::: panel-tabset
-#### Age Adjusted Prevalence
-
 ```{r}
 #| tbl-width: 8
 #| tbl-height: 4
 #| warning: false
-
+#| results: asis
 if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_ageAdjustedTbl, colList, figCap_plotTitle)
+  
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$tab)
+  
+# Generate tabset panels
+  cat("::: {.panel-tabset}\n")
+     for (tab in names(split_data)) {
+       cat(sprintf("## %s\n\n", tab))
+       
+       # Remove the 'tab' column from the current subset of data
+       current_data <- split_data[[tab]][, !names(split_data[[tab]]) %in% "tab"]
+       
+       print(htmltools::tagList(gbFun_tableHTML(current_data, colList, figCap_plotTitle)))
+     }
+  cat(":::\n")
+
 }
 ```
-
-#### Crude Prevalence
-
-```{r}
-#| tbl-width: 8
-#| tbl-height: 4
-#| warning: false
-
-if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_crudeTbl, colList, figCap_plotTitle)
-}
-```
-:::
 :::
 
 ::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
@@ -126,7 +117,7 @@ print(p)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-gbFun_tablePDF(filtered_crudeTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Crude") |> dplyr::select(-tab), colList)
 }
 ```
 
@@ -135,8 +126,7 @@ gbFun_tablePDF(filtered_crudeTbl, colList)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-# Plots have to be printed
-gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Age-Adjusted") |> dplyr::select(-tab), colList)
 }
 ```
 :::
@@ -150,6 +140,7 @@ gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
 
 ::: {#fig-healthPhysical}
 ```{r}
+#| label: f_places2022PhysicalHealth
 #| warning: false
 #| include: false
 
@@ -163,17 +154,11 @@ filtered_data <- f_places2022 |>
     , toolTipTextValue2 = paste0(formattable::comma(data_value,0), " (", formattable::comma(low_confidence_limit,0), "-", formattable::comma(high_confidence_limit,0), ")")
   )
 
-filtered_ageAdjustedTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "AgeAdjPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Age-Adjusted") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
-
-filtered_crudeTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "CrdPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Crude") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
+filtered_dataTbl <- filtered_data |> 
+    dplyr::arrange(locationid, year) |> 
+    dplyr::mutate(prevalenceType = ifelse(datavaluetypeid == "CrdPrv", "Crude", "Age-Adjusted"),
+                  tab = ifelse(datavaluetypeid == "CrdPrv", "Crude Prevalence", "Age-Adjusted Prevalence")) |> 
+    dplyr::select(prevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit, tab)
   
 figCap_plotTitle <- paste(filtered_data$measure[1], filtered_data$brfssYr[1])
 figSubcap <- "Data Source: @cdc2024Places"
@@ -203,33 +188,29 @@ gbFun_plotHTML(p, figCap_plotTitle)
 }
 ```
 
-::: panel-tabset
-#### Age Adjusted Prevalence
-
 ```{r}
 #| tbl-width: 8
 #| tbl-height: 4
 #| warning: false
-
+#| results: asis
 if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_ageAdjustedTbl, colList, figCap_plotTitle)
+  
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$tab)
+  
+# Generate tabset panels
+  cat("::: {.panel-tabset}\n")
+     for (tab in names(split_data)) {
+       cat(sprintf("## %s\n\n", tab))
+       
+       # Remove the 'tab' column from the current subset of data
+       current_data <- split_data[[tab]][, !names(split_data[[tab]]) %in% "tab"]
+       
+       print(htmltools::tagList(gbFun_tableHTML(current_data, colList, figCap_plotTitle)))
+     }
+  cat(":::\n")
+
 }
 ```
-
-#### Crude Prevalence
-
-```{r}
-#| tbl-width: 8
-#| tbl-height: 4
-#| warning: false
-
-if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_crudeTbl, colList, figCap_plotTitle)
-}
-```
-:::
 :::
 
 ::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
@@ -249,7 +230,7 @@ print(p)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-gbFun_tablePDF(filtered_crudeTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Crude") |> dplyr::select(-tab), colList)
 }
 ```
 
@@ -258,8 +239,7 @@ gbFun_tablePDF(filtered_crudeTbl, colList)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-# Plots have to be printed
-gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Age-Adjusted") |> dplyr::select(-tab), colList)
 }
 ```
 :::
@@ -273,6 +253,7 @@ gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
 
 ::: {#fig-disabilityMental}
 ```{r}
+#| label: f_places2022MentalHealth
 #| warning: false
 #| include: false
 
@@ -286,17 +267,11 @@ filtered_data <- f_places2022 |>
     , toolTipTextValue2 = paste0(formattable::comma(data_value,0), " (", formattable::comma(low_confidence_limit,0), "-", formattable::comma(high_confidence_limit,0), ")")
   )
 
-filtered_ageAdjustedTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "AgeAdjPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Age-Adjusted") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
-
-filtered_crudeTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "CrdPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Crude") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
+filtered_dataTbl <- filtered_data |> 
+    dplyr::arrange(locationid, year) |> 
+    dplyr::mutate(prevalenceType = ifelse(datavaluetypeid == "CrdPrv", "Crude", "Age-Adjusted"),
+                  tab = ifelse(datavaluetypeid == "CrdPrv", "Crude Prevalence", "Age-Adjusted Prevalence")) |> 
+    dplyr::select(prevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit, tab)
   
 figCap_plotTitle <- paste(filtered_data$measure[1], filtered_data$brfssYr[1])
 figSubcap <- "Data Source: @cdc2024Places"
@@ -326,33 +301,29 @@ gbFun_plotHTML(p, figCap_plotTitle)
 }
 ```
 
-::: panel-tabset
-#### Age Adjusted Prevalence
-
 ```{r}
 #| tbl-width: 8
 #| tbl-height: 4
 #| warning: false
-
+#| results: asis
 if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_ageAdjustedTbl, colList, figCap_plotTitle)
+  
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$tab)
+  
+# Generate tabset panels
+  cat("::: {.panel-tabset}\n")
+     for (tab in names(split_data)) {
+       cat(sprintf("## %s\n\n", tab))
+       
+       # Remove the 'tab' column from the current subset of data
+       current_data <- split_data[[tab]][, !names(split_data[[tab]]) %in% "tab"]
+       
+       print(htmltools::tagList(gbFun_tableHTML(current_data, colList, figCap_plotTitle)))
+     }
+  cat(":::\n")
+
 }
 ```
-
-#### Crude Prevalence
-
-```{r}
-#| tbl-width: 8
-#| tbl-height: 4
-#| warning: false
-
-if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_crudeTbl, colList, figCap_plotTitle)
-}
-```
-:::
 :::
 
 ::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
@@ -372,7 +343,7 @@ print(p)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-gbFun_tablePDF(filtered_crudeTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Crude") |> dplyr::select(-tab), colList)
 }
 ```
 
@@ -381,8 +352,7 @@ gbFun_tablePDF(filtered_crudeTbl, colList)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-# Plots have to be printed
-gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Age-Adjusted") |> dplyr::select(-tab), colList)
 }
 ```
 :::
@@ -484,6 +454,7 @@ Polk, Norman, and Mahnmoen did not experience a big change from 2022 to 2023 in 
 
 ::: {#fig-prescriptionRate}
 ```{r}
+#| label: f_boardOfPharmacyPmpPrescriptionRate
 #| warning: false
 #| include: false
 
@@ -590,6 +561,7 @@ PNM CHS provides outreach for the preventive healthcare program Child and Teen C
 
 ::: {#fig-childTeenCheck020}
 ```{r}
+#| label: f_cTcPnm020
 #| warning: false
 #| include: false
 
@@ -700,6 +672,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-childTeenCheck320}
 ```{r}
+#| label: f_cTcPnm320
 #| warning: false
 #| include: false
 
@@ -817,12 +790,13 @@ Ensuring that all expectant mothers receive timely and adequate prenatal care is
 
 ::: {#fig-kidsCountPNC}
 ```{r}
+#| label: f_kidsCountMothersPnc
 #| warning: false
 #| include: false
 
 # Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
 
-filtered_data <- f_kidsCountMothersMoke |> 
+filtered_data <- f_kidsCountMotherPnc |> 
   dplyr::filter(year > 2017, year >= max(year) -5) |>  #PNC measure change at 2017 
   dplyr::group_by(location, fips) |> 
   dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
@@ -855,7 +829,7 @@ filtered_dataTbl <- filtered_data |>
 
 figCap_plotTitle <- "Late/Inadequate Prenatal Care (PNC) for Mothers"
 figSubcap <- "Data Source: @kidsCountPreNatalCare"
-plotXCaption <- paste("Data Source:",pnmChildTeenCheckup) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
+plotXCaption <- paste("Data Source:",kidsCountPreNatalCare) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
@@ -940,6 +914,7 @@ Minnesota, Norman County, and Mahnomen County all experienced declines in vaccin
 
 ::: {#fig-immunizationSevenVaccineSeries}
 ```{r}
+#| label: f_pHDAPImmunization7Series
 #| warning: false
 #| include: false
 
@@ -1049,6 +1024,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-immunizationDTapHepAHepBHibMMR}
 ```{r}
+#| label: f_pHDAPImmunizationDTapHepAHepBHibMmr
 #| warning: false
 #| include: false
 
@@ -1182,7 +1158,6 @@ if (!knitr::is_html_output()) {
 gbFun_tablePDF(filtered_dataTblNP, colList)
 }
 ```
-
 :::
 :::
 
@@ -1193,8 +1168,9 @@ gbFun_tablePDF(filtered_dataTblNP, colList)
 `{r} figCap_plotTitle`
 :::
 
-::: {#fig-immunizationPCVPolioRotavirusVaricella1}
+::: {#fig-immunizationPCVPolioRotavirusVaricella}
 ```{r}
+#| label: f_pHDAPImmunizationPCVPolioRotavirusVaricella
 #| warning: false
 #| include: false
 
@@ -1328,7 +1304,6 @@ if (!knitr::is_html_output()) {
 gbFun_tablePDF(filtered_dataTblNP, colList)
 }
 ```
-
 :::
 :::
 

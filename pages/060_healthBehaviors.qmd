@@ -33,6 +33,7 @@ The Special Supplemental Nutrition Program for Women, Infants & Children (WIC) i
 
 ::: {#fig-preventionRoutineCheckup}
 ```{r}
+#| label: f_wicBreastFeedingRoutineCheckup
 #| warning: false
 #| include: false
 
@@ -144,6 +145,7 @@ Beyond drug overdoses, other significant public health concerns include binge dr
 
 ::: {#fig-mdhNAS}
 ```{r}
+#| label: f_neonatalAbstinenceSyndrome2016_2022
 #| warning: false
 #| include: false
 
@@ -246,6 +248,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-mdhNonfatalDrug}
 ```{r}
+#| label: f_mdhNonFatalDrugOverdose
 #| warning: false
 #| include: false
 
@@ -348,6 +351,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-mdhFatalDrug}
 ```{r}
+#| label: f_fatalDrugOverdose
 #| warning: false
 #| include: false
 
@@ -479,6 +483,7 @@ Binge drinking is a public health concern that affects our communities and the s
 
 ::: {#fig-riskFactorBingeDrinking}
 ```{r}
+#| label: f_places2022Binge
 #| warning: false
 #| include: false
 
@@ -492,17 +497,11 @@ filtered_data <- f_places2022 |>
     , toolTipTextValue2 = paste0(formattable::comma(data_value,0), " (", formattable::comma(low_confidence_limit,0), "-", formattable::comma(high_confidence_limit,0), ")")
   )
 
-filtered_ageAdjustedTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "AgeAdjPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Age-Adjusted") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
-
-filtered_crudeTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "CrdPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Crude") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
+filtered_dataTbl <- filtered_data |> 
+    dplyr::arrange(locationid, year) |> 
+    dplyr::mutate(prevalenceType = ifelse(datavaluetypeid == "CrdPrv", "Crude", "Age-Adjusted"),
+                  tab = ifelse(datavaluetypeid == "CrdPrv", "Crude Prevalence", "Age-Adjusted Prevalence")) |> 
+    dplyr::select(prevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit, tab)
   
 figCap_plotTitle <- paste(filtered_data$measure[1], filtered_data$brfssYr[1])
 figSubcap <- "Data Source: @cdc2024Places"
@@ -532,33 +531,29 @@ gbFun_plotHTML(p, figCap_plotTitle)
 }
 ```
 
-::: panel-tabset
-#### Age Adjusted Prevalence
-
 ```{r}
 #| tbl-width: 8
 #| tbl-height: 4
 #| warning: false
-
+#| results: asis
 if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_ageAdjustedTbl, colList, figCap_plotTitle)
+  
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$tab)
+  
+# Generate tabset panels
+  cat("::: {.panel-tabset}\n")
+     for (tab in names(split_data)) {
+       cat(sprintf("## %s\n\n", tab))
+       
+       # Remove the 'tab' column from the current subset of data
+       current_data <- split_data[[tab]][, !names(split_data[[tab]]) %in% "tab"]
+       
+       print(htmltools::tagList(gbFun_tableHTML(current_data, colList, figCap_plotTitle)))
+     }
+  cat(":::\n")
+
 }
 ```
-
-#### Crude Prevalence
-
-```{r}
-#| tbl-width: 8
-#| tbl-height: 4
-#| warning: false
-
-if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_crudeTbl, colList, figCap_plotTitle)
-}
-```
-:::
 :::
 
 ::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
@@ -578,7 +573,7 @@ print(p)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-gbFun_tablePDF(filtered_crudeTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Crude") |> dplyr::select(-tab), colList)
 }
 ```
 
@@ -587,8 +582,7 @@ gbFun_tablePDF(filtered_crudeTbl, colList)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-# Plots have to be printed
-gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Age-Adjusted") |> dplyr::select(-tab), colList)
 }
 ```
 :::
@@ -608,6 +602,7 @@ However, it is important to note that Mahnomen County also has a significantly h
 
 ::: {#fig-kidsCountPctMomsSmoke}
 ```{r}
+#| label: f_kidsCountMotherSmoke
 #| warning: false
 #| include: false
 
@@ -716,6 +711,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ::: {#fig-riskFactorSmoking}
 ```{r}
+#| label: f_places2022CSmoking
 #| warning: false
 #| include: false
 
@@ -729,17 +725,11 @@ filtered_data <- f_places2022 |>
     , toolTipTextValue2 = paste0(formattable::comma(data_value,0), " (", formattable::comma(low_confidence_limit,0), "-", formattable::comma(high_confidence_limit,0), ")")
   )
 
-filtered_ageAdjustedTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "AgeAdjPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Age-Adjusted") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
-
-filtered_crudeTbl <- filtered_data |> 
-    dplyr::filter(datavaluetypeid == "CrdPrv") |> 
-    dplyr::arrange(locationid, year) |>
-    dplyr::mutate(PrevalenceType = "Crude") |> 
-    dplyr::select(PrevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit)
+filtered_dataTbl <- filtered_data |> 
+    dplyr::arrange(locationid, year) |> 
+    dplyr::mutate(prevalenceType = ifelse(datavaluetypeid == "CrdPrv", "Crude", "Age-Adjusted"),
+                  tab = ifelse(datavaluetypeid == "CrdPrv", "Crude Prevalence", "Age-Adjusted Prevalence")) |> 
+    dplyr::select(prevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit, tab)
   
 figCap_plotTitle <- paste(filtered_data$measure[1], filtered_data$brfssYr[1])
 figSubcap <- "Data Source: @cdc2024Places"
@@ -770,33 +760,30 @@ gbFun_plotHTML(p, figCap_plotTitle)
 }
 ```
 
-::: panel-tabset
-#### Age Adjusted Prevalence
-
 ```{r}
-#| fig-width: 8
-#| fig-height: 4
+#| tbl-width: 8
+#| tbl-height: 4
 #| warning: false
-
+#| results: asis
 if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_ageAdjustedTbl, colList, figCap_plotTitle)
+  
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$tab)
+  
+# Generate tabset panels
+  cat("::: {.panel-tabset}\n")
+     for (tab in names(split_data)) {
+       cat(sprintf("## %s\n\n", tab))
+       
+       # Remove the 'tab' column from the current subset of data
+       current_data <- split_data[[tab]][, !names(split_data[[tab]]) %in% "tab"]
+       
+       print(htmltools::tagList(gbFun_tableHTML(current_data, colList, figCap_plotTitle)))
+     }
+  cat(":::\n")
+
 }
 ```
 
-#### Crude Prevalence
-
-```{r}
-#| fig-width: 8
-#| fig-height: 4
-#| warning: false
-
-if (knitr::is_html_output()) {
-  #Tables shouldn't be printed because the HTML table will display
-  gbFun_tableHTML(filtered_crudeTbl, colList, figCap_plotTitle)
-}
-```
-:::
 :::
 
 ::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
@@ -816,7 +803,7 @@ print(p)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-gbFun_tablePDF(filtered_crudeTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Crude") |> dplyr::select(-tab), colList)
 }
 ```
 
@@ -825,8 +812,7 @@ gbFun_tablePDF(filtered_crudeTbl, colList)
 #| tbl-height: 3
 #| warning: false
 if (!knitr::is_html_output()) {
-# Plots have to be printed
-gbFun_tablePDF(filtered_ageAdjustedTbl, colList)
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Age-Adjusted") |> dplyr::select(-tab), colList)
 }
 ```
 :::
@@ -850,6 +836,7 @@ These trends align with the broader state data, which saw a record high of 5.5 m
 
 ::: {#fig-foodShelfHousehold}
 ```{r}
+#| label: f_foodShelfHousehold
 #| warning: false
 #| include: false
 
