@@ -782,15 +782,16 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ## Prenatal Care
 
+
+Prenatal care is essential for ensuring the health and well-being of both mothers and their babies. Adequate prenatal care helps monitor the progress of the pregnancy, identify and manage potential health issues, and provide important health education to expectant mothers.
+
+In Minnesota, the percentage of mothers receiving late or inadequate prenatal care increased slightly from 8.7% in 2021 to 9.4% in 2022, representing a 0.7% increase. Data for Polk County and Norman County is not available for both years, likely due to suppression rules or the majority of births occurring out of state, possibly in North Dakota. Mahnomen County had a high rate of late or inadequate prenatal care at 29.9% in 2021, but data for 2022 is not available [@kidsCountPreNatalCare]. The Minnesota Department of Health is currently developing a new dashboard that should help address the data suppression limitations identified in the Kids Count data. Please check back in Q2 of 2025 for the most up-to-date information.
+
 Prenatal care is essential for ensuring the health and well-being of both mothers and their babies. Adequate prenatal care helps to monitor the progress of the pregnancy, identify and manage potential health issues, and provide important health education to expectant mothers.
-
-The state of Minnesota saw a decrease in the percentage of mothers receiving late or inadequate prenatal care, from 5.6% in 2021 to 4.4% in 2022, representing a 1.2% improvement. Polk County also experienced a significant improvement, with the rate decreasing from 8.3% in 2021 to 5.9% in 2022, a 2.4% improvement.Data for Norman County is not available for both years. This may be due to suppression rules for not having enough data since the majority of Norman County births happen out of state more than likely in North Dakota. Mahnomen County had the highest rates of late or inadequate prenatal care, but it also saw the most substantial improvement, decreasing from 41.8% in 2021 to 32.6% in 2022, a 9.2% improvement [@kidsCountPreNatalCare].
-
-Ensuring that all expectant mothers receive timely and adequate prenatal care is crucial for the health of both mothers and their babies. Continued efforts to improve access to and the quality of prenatal care will help further reduce these rates and improve health outcomes across our communities.
 
 ::: {#fig-kidsCountPNC}
 ```{r}
-#| label: f_kidsCountMothersPnc
+#| label: f_kidsCountMotherPnc
 #| warning: false
 #| include: false
 
@@ -834,7 +835,6 @@ plotXCaption <- paste("Data Source:",kidsCountPreNatalCare) #Since the x axis is
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
 colList <- list("Year", "Location", "Late/Inadequate PNC", "% Change") # Using a list accommodates tables with different column lengths.
-
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
