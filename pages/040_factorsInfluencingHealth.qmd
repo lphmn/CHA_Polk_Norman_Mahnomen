@@ -442,9 +442,9 @@ The Department of Employment and Economic Development offers a comprehensive bre
 ::: {#fig-ctyProfile layout-ncol="3"}
 [![](Attachments/mnMap_polk.png)](https://mn.gov/deed/assets/101824_polk_tcm1045-407501.pdf)
 
-[![](Attachments/mnMap_norman.png)](https://mn.gov/deed/assets/101824_norman_tcm1045-407498.pdf)
+[![](Attachments/mnMap_norman.png)](https://mn.gov/deed/assets/012725_norman_tcm1045-407498.pdf)
 
-[![](Attachments/mnMap_mahnomen.png)](https://mn.gov/deed/assets/101824_mahnomen_tcm1045-407495.pdf)
+[![](Attachments/mnMap_mahnomen.png)](https://mn.gov/deed/assets/012725_mahnomen_tcm1045-407495.pdf)
 
 For detailed county profiles, please click on the corresponding map above.
 :::
@@ -456,11 +456,11 @@ The Office of Traffic Safety, a Division of the Minnesota Department of Public S
 It is important to know any potential high crash areas in our counties. It is very encouraging that we don't see any red, purple, or blue on the maps developed by [@tzdCrashSite2023]. It is even for a five-year time period, and we still don't see alarming signs of concern resulting in serious injury or death. This may reflect the effectiveness of our local road safety measures and community awareness. Continuing to prioritize safe driving practices will help maintain and improve these outcomes. The following maps show the location of fatal and serious injury crashes in each county. Information was put together by the Center for Transportation Studies at the University of Minnesota, as a part of MN Toward Zero Deaths (TZD).
 
 ::: {#fig-seriousCrash layout-ncol="3"}
-[![](Attachments/popEnvironmentalHealth/countyMahnomenMap_crashes2019_2023.png){fig-align="center" width="288"}](https://www.minnesotatzd.org/regions/westcentral)
+[![](Attachments/040_factorsInfluencingHealth/countyMahnomenMap_crashes2019_2023.png){width="288"}](https://www.minnesotatzd.org/regions/westcentral)
 
-[![](Attachments\popEnvironmentalHealth\countyNormanMap_crashes2019_2023.png){fig-align="center" width="288"}](https://www.minnesotatzd.org/regions/northwest)
+[![](Attachments\040_factorsInfluencingHealth\countyNormanMap_crashes2019_2023.png){width="288"}](https://www.minnesotatzd.org/regions/northwest)
 
-[![](Attachments\popEnvironmentalHealth\countypolkMap_crashes2019_2023.png){fig-align="center" width="288"}](https://www.minnesotatzd.org/regions/northwest)
+[![](Attachments\040_factorsInfluencingHealth\countypolkMap_crashes2019_2023.png){width="288"}](https://www.minnesotatzd.org/regions/northwest)
 
 For more resources, please click anywhere on any of the maps
 :::

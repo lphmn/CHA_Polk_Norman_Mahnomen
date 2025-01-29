@@ -30,17 +30,17 @@ The state of `{r} f_cdcSvi2022$county[1]` has a total land area of `{r} f_cdcSvi
 This means that in these three counties, people are much more spread out compared to the state average. The population density, or the number of people per sq mile, helps us understand how rural an area might be, although it is not the only factor. As shown on the following maps, Polk County has three Census Tracts that prevent it from being entirely rural.
 
 ::: {#fig-ruralMapHTML .content-visible when-format="html" layout-ncol="2"}
-[![](Attachments/popEnvironmentalHealth/mnMap_ruralCounty.png){fig-align="center" width="440"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/9)
+[![](Attachments/030_demographics/mnMap_ruralCounty.png){width="440"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/9)
 
-[![](Attachments/popEnvironmentalHealth/mnMap_ruralCensusTract.png){fig-align="center" width="449"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/)
+[![](Attachments/030_demographics/mnMap_ruralCensusTract.png){width="449"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/)
 
 Please click on either map above for the detailed rural report.
 :::
 
 ::: {#fig-ruralMapPDF .content-visible when-format="pdf" layout-ncol="2"}
-[![](Attachments/popEnvironmentalHealth/mnMap_ruralCounty.png){fig-align="center" width="285"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/9)
+[![](Attachments/030_demographics/mnMap_ruralCounty.png){width="285"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/9)
 
-[![](Attachments/popEnvironmentalHealth/mnMap_ruralCensusTract.png){fig-align="center" width="300"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/)
+[![](Attachments/030_demographics/mnMap_ruralCensusTract.png){width="285"}](https://www.ruralmn.org/2020-state-of-rural-minnesota-report/)
 
 Please click on either map above for the detailed rural report.
 :::

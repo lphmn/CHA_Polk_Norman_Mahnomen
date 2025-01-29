@@ -783,7 +783,6 @@ if (knitr::is_html_output()) {
 
 }
 ```
-
 :::
 
 ::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
@@ -948,4 +947,4 @@ Farmers markets offer a variety of programs to make fresh, local produce more ac
 
 Local initiatives, such as the Power of Produce (PoP) program, offer incentives for children and seniors to engage with farmers markets, promoting lifelong healthy eating habits. These programs not only support individual health but also strengthen community ties and local economies.
 
-[![](Attachments/wicDollars.png){fig-align="center" width="338"}](https://www.health.state.mn.us/docs/people/wic/localagency/reports/pptndemo/wicdollars.pdf)
+[![](Attachments/060_healthBehaviors/wicDollars.png){fig-align="center" width="338"}](https://www.health.state.mn.us/docs/people/wic/localagency/reports/pptndemo/wicdollars.pdf)

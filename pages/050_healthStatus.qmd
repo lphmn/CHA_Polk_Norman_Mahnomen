@@ -905,11 +905,11 @@ According to Minnesota Department of Health, childhood and adolescent vaccinatio
 Minnesota, Norman County, and Mahnomen County all experienced declines in vaccination rates for the seven vaccine series, DTaP, Hep A, Hep B, Hib, MMR, PCV, Polio, Rotovirus, and Varicella. Polk County improved their vaccination rate for Varicella, Rotovirus, Polio, MMR, Hep B, DTaP, and the seven vaccine series.
 
 ::: {.content-visible when-format="html"}
-[![](Attachments/healthIndicators/mnMap_countyImmunization.png){fig-align="center" width="322"}](https://data.web.health.state.mn.us/web/mndata/immunization_basic#countymap)
+[![](Attachments/050_healthStatus/mnMap_countyImmunization.png){fig-align="center" width="322"}](https://data.web.health.state.mn.us/web/mndata/immunization_basic#countymap)
 :::
 
 ::: {.content-visible when-format="pdf"}
-[![](Attachments/healthIndicators/mnMap_countyImmunization.png){fig-align="center" width="373"}](https://data.web.health.state.mn.us/web/mndata/immunization_basic#countymap)
+[![](Attachments/050_healthStatus/mnMap_countyImmunization.png){fig-align="center" width="373"}](https://data.web.health.state.mn.us/web/mndata/immunization_basic#countymap)
 :::
 
 ::: {#fig-immunizationSevenVaccineSeries}
