@@ -433,7 +433,7 @@ if (!knitr::is_html_output()) {
 
 ## Influenza
 
-Several influenza surveillance methods are used across the state of Minnesota. Data is summarized by influenza season (October -- April), rather than calendar year. Please refer to page 2 Hospital Influenza Cases by Season and page 3 Deaths associated with influenza by season [in this MDD Summery report](https://www.health.state.mn.us/diseases/flu/stats/2022summary.pdf).
+Several influenza surveillance methods are used across the state of Minnesota. Data is summarized by influenza season (October -- April), rather than calendar year. Please refer to page 2 Hospital Influenza Cases by Season and page 3 Deaths associated with influenza by season [in this MDH Summery report](https://www.health.state.mn.us/diseases/flu/stats/2022summary.pdf).
 
 ## STI/HIV
 
