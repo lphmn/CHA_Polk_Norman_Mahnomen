@@ -847,7 +847,7 @@ Asthma is a chronic disease of the airways that makes breathing difficult. Asthm
 
 During normal breathing, air flows freely in and out of the lungs. However, during an asthma attack or episode, swelling of the airway's lining increases, muscles surrounding the airways tighten, and thick mucus clogs the tiny airways making it difficult to breathe. Asthma affects people of all ages and while it can start in adulthood, it most often starts during childhood.
 
-Children, teens, and adults now spend up to 90% of their time indoors, and at least 50% of that time is spent in their home. Because of the large amount of time spent indoors, the home environment is an important focus for reducing exposures to triggers of asthma. Triggers of asthma found in the home include allergens such as pet dander, mold, or pests as well as irritants such as scented cleaning products and second hand smoke. @mdhAsthma
+Children, teens, and adults now spend up to 90% of their time indoors, and at least 50% of that time is spent in their home. Because of the large amount of time spent indoors, the home environment is an important focus for reducing exposures to triggers of asthma. Triggers of asthma found in the home include allergens such as pet dander, mold, or pests as well as irritants such as scented cleaning products and second hand smoke [@mdhAsthma].
 
 | Location  | Age-Adjusted |
 |-----------|--------------|
