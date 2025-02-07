@@ -29,6 +29,34 @@
             "type": ""
         },
         {
+            "URL": "https://www.cdc.gov/aces/about/index.html",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2024,
+                        11,
+                        12
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "literal": "Centers for Disease Control and Prevention"
+                }
+            ],
+            "id": "cdcAces",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "note": "Accessed 02/03/2025",
+            "title": "About adverse childhood experiences",
+            "type": ""
+        },
+        {
             "URL": "https://www.cdc.gov/places",
             "accessed": {
                 "date-parts": [

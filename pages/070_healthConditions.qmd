@@ -46,19 +46,19 @@ These statistics highlight the widespread impact of cancer and the importance of
 
 By understanding the prevalence and impact of cancer in our communities, we can better tailor our efforts to support those affected and work towards reducing the incidence and mortality associated with this disease.
 
-+--------------+-----------------------------+------------------------------+
-| Location     | Number of Persons Living    | Percent of Population Living |
-|              |                             |                              |
-|              | with a History of of Cancer | with a History of Cancer     |
-+:============:+:===========================:+:============================:+
-| Minnesota    | 3,16,110                    | 5.5%                         |
-+--------------+-----------------------------+------------------------------+
-| Polk         | 1,880                       | 6.1%                         |
-+--------------+-----------------------------+------------------------------+
-| Norman       | 470                         | 7.3%                         |
-+--------------+-----------------------------+------------------------------+
-| Mahnomen     | 370                         | 6.9%                         |
-+--------------+-----------------------------+------------------------------+
++---------------+-----------------------------+------------------------------+
+| Location      | Number of Persons Living    | Percent of Population Living |
+|               |                             |                              |
+|               | with a History of of Cancer | with a History of Cancer     |
++:=============:+:===========================:+:============================:+
+| Minnesota     | 3,16,110                    | 5.5%                         |
++---------------+-----------------------------+------------------------------+
+| Polk          | 1,880                       | 6.1%                         |
++---------------+-----------------------------+------------------------------+
+| Norman        | 470                         | 7.3%                         |
++---------------+-----------------------------+------------------------------+
+| Mahnomen      | 370                         | 6.9%                         |
++---------------+-----------------------------+------------------------------+
 
 : Persons living with a history of of cancer by Location
 
@@ -66,7 +66,7 @@ By understanding the prevalence and impact of cancer in our communities, we can 
 
 | Location  | Lung Cancer | Breast Cancer |
 |:---------:|:-----------:|:-------------:|
-| Minnesota |     52      |      136      |
+| Minnesota |    55.6     |     135.7     |
 |   Polk    |    57.8     |     146.3     |
 |  Norman   |    49.3     |     109.2     |
 | Mahnomen  |    62.7     |     133.7     |
@@ -450,14 +450,14 @@ Chlamydia, Gonorrhea, and Syphilis data in this report should only be compared t
 # Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
 
 filtered_data <- f_stiHIV |> 
-  dplyr::filter(indicator == "Chlamydia Count", fips != 27000) |>  #Count data gets overwhelmed by state |> 
+  dplyr::filter(indicator == "Chlamydia New & Old Cases", fips != 27000) |>  #Count data gets overwhelmed by state |> 
   dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
     toolTipTextHeader1 = "Year: "
     , toolTipTextValue1 = year
     , toolTipTextHeader2 = "\nLocation: "
     , toolTipTextValue2 = location
     , toolTipTextHeader3 = "\nChlamydia Cases: "
-    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(valueMetric)
+    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(ctValue)
   )
 
 minYr <- unique(min(filtered_data$year))
@@ -467,7 +467,7 @@ maxYr <- unique(max(filtered_data$year))
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year == maxYr)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(valueMetric)) |>   
+  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(ctValue)) |>   
   dplyr::select(year, location, placeholder) # Ensure fields are ordered as desired.  
 
 
@@ -482,7 +482,7 @@ colList <- list("Year", "Location", "Chlamydia Cases Count") # Using a list acco
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "valueMetric", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "ctValue", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", figCap_plotTitle,
     plotXCaption, "", minYr, maxYr, scaleYContinuous,
     gbVal_colorScheme, gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -550,14 +550,14 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 # Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
 
 filtered_data <- f_stiHIV |> 
-  dplyr::filter(indicator == "Gonorrhea Count", fips != 27000) |>  #Count data gets overwhelmed by state |> 
+  dplyr::filter(indicator == "Gonorrhea New & Old Cases", fips != 27000) |>  #Count data gets overwhelmed by state |> 
   dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
     toolTipTextHeader1 = "Year: "
     , toolTipTextValue1 = year
     , toolTipTextHeader2 = "\nLocation: "
     , toolTipTextValue2 = location
     , toolTipTextHeader3 = "\nGonorrhea Cases: "
-    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(valueMetric)
+    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(ctValue)
   )
 
 minYr <- unique(min(filtered_data$year))
@@ -567,7 +567,7 @@ maxYr <- unique(max(filtered_data$year))
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year == maxYr)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(valueMetric)) |>   
+  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(ctValue)) |>   
   dplyr::select(year, location, placeholder) # Ensure fields are ordered as desired.  
 
 
@@ -582,7 +582,7 @@ colList <- list("Year", "Location", "Gonorrhea Cases Count") # Using a list acco
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "valueMetric", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "ctValue", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", figCap_plotTitle,
     plotXCaption, "", minYr, maxYr, scaleYContinuous,
     gbVal_colorScheme, gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -650,14 +650,14 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 # Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
 
 filtered_data <- f_stiHIV |> 
-  dplyr::filter(indicator == "Syphilis Count", fips != 27000) |>  #Count data gets overwhelmed by state |> 
+  dplyr::filter(indicator == "Syphilis New & Old Cases", fips != 27000) |>  #Count data gets overwhelmed by state |> 
   dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
     toolTipTextHeader1 = "Year: "
     , toolTipTextValue1 = year
     , toolTipTextHeader2 = "\nLocation: "
     , toolTipTextValue2 = location
     , toolTipTextHeader3 = "\nSyphilis Cases: "
-    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(valueMetric)
+    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(ctValue)
   )
 
 minYr <- unique(min(filtered_data$year))
@@ -667,7 +667,7 @@ maxYr <- unique(max(filtered_data$year))
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year == maxYr)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(valueMetric)) |>   
+  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(ctValue)) |>   
   dplyr::select(year, location, placeholder) # Ensure fields are ordered as desired.  
 
 
@@ -682,7 +682,7 @@ colList <- list("Year", "Location", "Syphilis Cases Count") # Using a list accom
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "valueMetric", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "ctValue", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", figCap_plotTitle,
     plotXCaption, "", minYr, maxYr, scaleYContinuous,
     gbVal_colorScheme, gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -741,7 +741,7 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 `{r} figCap_plotTitle`
 :::
 
-::: {#fig-HIVAidsPrevalence}
+::: {#fig-HIVAids}
 ```{r}
 #| label: f_stiHIVHivAidsPrevalence
 #| warning: false
@@ -750,14 +750,14 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 # Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
 
 filtered_data <- f_stiHIV |> 
-  dplyr::filter(indicator == "HIV & Aids Prevalence", fips != 27000) |>  #Count data gets overwhelmed by state |> 
+  dplyr::filter(indicator == "HIV & Aids New & Old Cases", fips != 27000) |>  #Count data gets overwhelmed by state |> 
   dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
     toolTipTextHeader1 = "Year: "
     , toolTipTextValue1 = year
     , toolTipTextHeader2 = "\nLocation: "
     , toolTipTextValue2 = location
-    , toolTipTextHeader3 = "\nPrevalence: "
-    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(valueMetric)
+    , toolTipTextHeader3 = "\nCount: "
+    , toolTipTextValue3 = scales::label_comma(accuracy = .01)(ctValue)
   )
 
 minYr <- unique(min(filtered_data$year))
@@ -767,22 +767,22 @@ maxYr <- unique(max(filtered_data$year))
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year == maxYr)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(valueMetric)) |>   
+  dplyr::mutate(placeholder = scales::label_comma(accuracy = .01)(ctValue)) |>   
   dplyr::select(year, location, placeholder) # Ensure fields are ordered as desired.  
 
 
-figCap_plotTitle <- "HIV & Aids Prevalence"
+figCap_plotTitle <- "HIV & Aids Cases"
 figSubcap <- "Data Source: @mdhStiStatistics"
 plotXCaption <- paste("Data Source:", mdhStiStatistics) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
 
 # Plot
 scaleYContinuous = scales::label_comma()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Prevalence") # Using a list accommodates tables with different column lengths.
+colList <- list("Year", "Location", "HIV & Aids Cases Count") # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "valueMetric", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "ctValue", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", figCap_plotTitle,
     plotXCaption, "", minYr, maxYr, scaleYContinuous,
     gbVal_colorScheme, gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
