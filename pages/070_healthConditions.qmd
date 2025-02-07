@@ -756,7 +756,7 @@ filtered_data <- f_stiHIV |>
     , toolTipTextValue1 = year
     , toolTipTextHeader2 = "\nLocation: "
     , toolTipTextValue2 = location
-    , toolTipTextHeader3 = "\nCount: "
+    , toolTipTextHeader3 = "\nHIV & Aids Cases: "
     , toolTipTextValue3 = scales::label_comma(accuracy = .01)(ctValue)
   )
 
