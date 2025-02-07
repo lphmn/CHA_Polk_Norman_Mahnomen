@@ -29,13 +29,13 @@ For more resources, please click anywhere on the map
 
 ### Arsenic
 
-Arsenic can be found in drinking water. Testing is vital in learning if your water has arsenic. The MDH recommendation is to test a private well at least once for arsenic. Chronic arsenic exposure has shown to be a risk factor for some cancers and also can impact a child's development. in both arsenic concentration categories (\> 2 µg/L and \> 10 µg/L), Mahnomen, Norman, and Polk counties had higher percentages of wells with arsenic compared to the state average for Minnesota.
+Arsenic can be found in drinking water. Testing is vital in learning if your water has arsenic. The MDH recommendation is to test a private well at least once for arsenic. Chronic arsenic exposure has shown to be a risk factor for some cancers and also can impact a child's development. For both arsenic concentration categories (\> 2 µg/L and \> 10 µg/L), Mahnomen, Norman, and Polk counties had higher percentages of wells with arsenic compared to the state average for Minnesota.
 
 | Location  | Percentage of Wells \> 2 µg/L | Percentage of Wells \> 10 µg/L |
 |:---------:|:-----------------------------:|:------------------------------:|
 | Minnesota |    48.6% (34,920 / 71,831)    |     11.5% (8,264 / 71,831)     |
 | Mahnomen  |       77.5% (207 / 267)       |       41.9% (112 / 267)        |
-|   Norma   |       73.6% (131 / 178)       |        42.7% (76 / 178)        |
+|   Norman   |       73.6% (131 / 178)       |        42.7% (76 / 178)        |
 |   Polk    |       58.9% (399 / 677)       |       20.8% (141 / 677)        |
 
 : Private Wells Tested 2008-2021
