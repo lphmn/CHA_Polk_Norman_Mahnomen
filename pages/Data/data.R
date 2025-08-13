@@ -226,3 +226,21 @@ f_pHDAPDental <- if (file.exists("pages/Data/f_pHDAPDental.csv")) {
 } else {
    read.csv("./Data/f_pHDAPDental.csv")  
 }
+
+
+
+# MDH Hospital-Treated Suicidal and Self-Harm Injury ----------------------
+
+f_suicideIdeationSelfHarm <- if (file.exists("pages/Data/f_suicideIdeationSelfHarm.csv")) {
+  read.csv("pages/Data/f_suicideIdeationSelfHarm.csv")
+} else {
+  read.csv("./Data/f_suicideIdeationSelfHarm.csv")  
+}
+
+# MDH SHIP ----------------------
+
+f_ship20232024 <- if (file.exists("pages/Data/f_ship20232024.csv")) {
+  read.csv("pages/Data/f_ship20232024.csv")
+} else {
+  read.csv("./Data/f_ship20232024.csv")  
+}

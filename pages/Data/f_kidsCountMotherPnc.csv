@@ -1,4 +1,4 @@
-location,year,dataFormat,data,fips
+location,year,dataFormat,pct,fips
 Minnesota,2015,Percent,0.045,99
 Minnesota,2016,Percent,0.109,99
 Minnesota,2017,Percent,0.096,99

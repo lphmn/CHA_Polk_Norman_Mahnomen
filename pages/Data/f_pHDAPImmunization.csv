@@ -1,4 +1,4 @@
-"indicator","year","fips","location","age","vaccine","percent","population","percentPartiallyVaccinated","percentNonMedicalExemption","percentMedicalExemption","percentDiseaseHistory"
+indicator,year,fips,location,age,vaccine,pct,population,percentPartiallyVaccinated,percentNonMedicalExemption,percentMedicalExemption,percentDiseaseHistory
 "Childhood immunizations",2015,99,"Minnesota","Childhood (24-35 months)","DTap",0.678,73691,"null","null","null","null"
 "Childhood immunizations",2015,99,"Minnesota","Childhood (24-35 months)","Hep A",0.33,73691,"null","null","null","null"
 "Childhood immunizations",2015,99,"Minnesota","Childhood (24-35 months)","Hep B",0.789,73691,"null","null","null","null"

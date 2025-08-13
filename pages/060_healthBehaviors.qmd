@@ -55,11 +55,33 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+# filtered_dataTbl <- filtered_data |> 
+#   dplyr::filter(year == maxYr)  |>
+#   dplyr::arrange(measureOrder) |>
+#   dplyr::mutate(placeholder = ifelse(is.na(measureValue), "--", scales::label_percent(accuracy = 0.01)(measureValue))) |>   
+#   dplyr::select(year, measure, placeholder) # Ensure fields are ordered as desired.
+
 filtered_dataTbl <- filtered_data |> 
-  dplyr::filter(year == maxYr)  |>
-  dplyr::arrange(measureOrder) |>
-  dplyr::mutate(placeholder = ifelse(is.na(measureValue), "--", scales::label_percent(accuracy = 0.01)(measureValue))) |>   
-  dplyr::select(year, measure, placeholder) # Ensure fields are ordered as desired.
+  dplyr::filter(year >= maxYr-1)  |>
+  dplyr::arrange(-measureOrder, year) |>
+  dplyr::group_by(-measureOrder, measure) |> 
+  dplyr::summarize(
+    Duration = measure
+    , valueMinYr = measureValue[year == min(year)]
+    , valueMaxYr = measureValue[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
+  ) |>
+  dplyr::distinct() |> 
+  dplyr::select(Duration, valueMinYr, valueMaxYr, pctDifference) |>  
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ as.character(maxYr-1), valueMinYr)  |> 
+  dplyr::rename_with(~ as.character(maxYr), valueMaxYr)
 
 figCap_plotTitle <- "P−N−M Breastfeeding Initiation and Duration\nAmong Infants in the Minnesota WIC Program"
 figSubcap <- "Data Source: @mdhWomenInfantChildren"
@@ -68,7 +90,7 @@ plotXCaption <- paste("Data Source:",mdhWomenInfantChildren) #Since the x axis i
 # Plot
 scaleYContinuous = scales::label_percent()
 #Table 
-colList <- list("Year", "Duration", "Percentage") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) #colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
@@ -271,7 +293,7 @@ maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
 filtered_dataTbl <- filtered_data |> 
-  dplyr::filter(year >= maxYr - 1)  |>
+  dplyr::filter(year >= maxYr)  |>
   dplyr::arrange(fips) |>
   dplyr::mutate(placeholderCount = scales::label_comma()(valueCount)
                 , placeholderRate = scales::label_comma(accuracy = 0.01)(age_adjustedRatePer1000)) |>   
@@ -600,6 +622,8 @@ Smoking remains a critical public health issue for local communities, impacting 
 
 However, it is important to note that Mahnomen County also has a significantly higher smoking rate among all adults compared to the other counties. This higher prevalence of smoking poses various health risks, including respiratory diseases, cardiovascular diseases, and cancer. Addressing smoking rates remains a critical public health priority to improve overall community health and reduce the burden of smoking-related illnesses.
 
+Preventing tobacco use among youth is essential for protecting long-term health and well-being. Early exposure to nicotine increases the risk of addiction and lifelong use. By focusing on prevention, communities can reduce future health problems, lower healthcare costs, and support healthier environments for young people.
+
 ::: {#fig-kidsCountPctMomsSmoke}
 ```{r}
 #| label: f_kidsCountMotherSmoke
@@ -623,19 +647,28 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy = .01)(dataValue)) |>   
-  dplyr::group_by(fips) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy = .01)((dataValue) - dplyr::first(dataValue)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = dataValue[year == min(year)]
+    , valueMaxYr = dataValue[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
   ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired.  
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |>  
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("Prenatal Smoking ", maxYr-1), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("Prenatal Smoking ", maxYr), valueMaxYr)
 
 
 figCap_plotTitle <- " Percentage of Mothers Who Smoked During Pregnancy"
@@ -645,7 +678,7 @@ plotXCaption <- paste("Data Source:",kidsCountMothersWhoSmoked) #Since the x axi
 # Plot
 scaleYContinuous = scales::label_percent()
 #Table 
-colList <- list("Year", "Location", "Mothers Who Smoked", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
@@ -823,6 +856,16 @@ if (!knitr::is_html_output()) {
 `{r} figCap_plotTitle`
 :::
 
+::: {#fig-YouthCommercialTobaccoUse layout-ncol="3"}
+[![](Attachments/mnMap_polk.png)](https://www.health.state.mn.us/communities/tobacco/data/docs/profiles/polk.pdf)
+
+[![](Attachments/mnMap_norman.png)](https://www.health.state.mn.us/communities/tobacco/data/docs/profiles/norman.pdf)
+
+[![](Attachments/mnMap_mahnomen.png)](https://www.health.state.mn.us/communities/tobacco/data/docs/profiles/mahnomen.pdf)
+
+Please click on the corresponding map above for more detailed youth commercial tobacco use information.
+:::
+
 ## Food Shelf Household Visits
 
 In 2022, food shelf visits in Polk, Norman, and Mahnomen counties reflected a need for food assistance.
@@ -856,19 +899,41 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
-filtered_dataTbl <- filtered_data |> 
+# filtered_dataTbl <- filtered_data |>
+#   dplyr::filter(year >= maxYr-1)  |>
+#   dplyr::arrange(fips, year) |>
+#   dplyr::mutate(placeholder = scales::label_comma()(rawValue)) |>
+#   dplyr::group_by(fips) |>
+#   dplyr::mutate(percentageDifference = dplyr::case_when(
+#       year == maxYr ~ (dplyr::last(rawValue) - dplyr::first(rawValue)) / dplyr::first(rawValue)
+#       , TRUE ~ NA_real_
+#     )
+#     , percentageDifference = ifelse(is.na(percentageDifference), "--", scales::label_percent(accuracy = .01)(percentageDifference))
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(year, location, placeholder, percentageDifference) # Ensure fields are ordered as desired.
+
+filtered_dataTbl <- filtered_data |>
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_comma()(rawValue)) |>   
-  dplyr::group_by(fips) |>  
-  dplyr::mutate(percentageDifference = dplyr::case_when(
-      year == maxYr ~ (dplyr::last(rawValue) - dplyr::first(rawValue)) / dplyr::first(rawValue)
-      , TRUE ~ NA_real_
-    )
-    , percentageDifference = ifelse(is.na(percentageDifference), "--", scales::label_percent(accuracy = .01)(percentageDifference))
-  ) |>   
-  dplyr::ungroup() |>
-  dplyr::select(year, location, placeholder, percentageDifference) # Ensure fields are ordered as desired.
+  dplyr::group_by(fips) |>
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = rawValue[year == min(year)]
+    , valueMaxYr = rawValue[year == max(year)]
+    , pctDifference = (valueMaxYr - valueMinYr) / valueMinYr
+    , .groups = 'drop'
+  ) |> 
+  dplyr::distinct() |>
+  dplyr::select(-fips) |>   
+  dplyr::mutate(
+    valueMinYr = scales::label_comma(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_comma(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |> 
+  dplyr::rename("% Difference" = pctDifference) |>  
+  dplyr::rename_with(~ paste0("Household Visits ", maxYr-1), valueMinYr)  |>
+  dplyr::rename_with(~ paste0("Household Visits ", maxYr), valueMaxYr)
 
 figCap_plotTitle <- "Food Shelf Household Visits"
 figSubcap <- "Data Source: @hungerSolutionsFoodShelfDataRequest"
@@ -877,7 +942,7 @@ plotXCaption <- paste("Data Source:",hungerSolutionsFoodShelfDataRequest) #Since
 # Plot
 scaleYContinuous = scales::label_comma()
 #Table 
-colList <- list("Year", "Location", "Household Visits", "% Difference") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
@@ -948,3 +1013,365 @@ Farmers markets offer a variety of programs to make fresh, local produce more ac
 Local initiatives, such as the Power of Produce (PoP) program, offer incentives for children and seniors to engage with farmers markets, promoting lifelong healthy eating habits. These programs not only support individual health but also strengthen community ties and local economies.
 
 [![](Attachments/060_healthBehaviors/wicDollars.png){fig-align="center" width="338"}](https://www.health.state.mn.us/docs/people/wic/localagency/reports/pptndemo/wicdollars.pdf)
+
+## Nutrition
+
+Eating enough fruits and vegetables is essential for growing bodies and lifelong health. These foods provide important vitamins, minerals, and fiber that help support physical development, boost the immune system, and reduce the risk of chronic diseases. Encouraging youth to eat five or more servings each day helps build healthy habits early and supports better focus, energy, and well-being in school and daily life.
+
+In 2022, 22.2 percent of 8th graders in Mahnomen County reported eating five or more servings of fruits and vegetables each day over the past week. Polk County had 17.4 percent, and the statewide rate in Minnesota was 16.4 percent. These numbers suggest that most youth are not getting enough fruits and vegetables, which may impact their growth, energy, and long-term health. Increasing access to healthy foods and promoting nutrition education can help improve these outcomes across the region.
+
+::: {#fig-mss8GradeFruitVegetableConsumption}
+```{r}
+#| label: mss8GradeFruitVegetableConsumption
+#| warning: false
+#| include: false
+
+# Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
+
+filtered_data <- f_mss |> 
+  dplyr::filter(mss_topic == "Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)", grade == 8)  |> 
+  dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
+    toolTipTextHeader1 = "Year: "
+    , toolTipTextValue1 = year
+    , toolTipTextHeader2 = "\nLocation: "
+    , toolTipTextValue2 = location
+    , toolTipTextHeader3 = "\n8th Graders 5+ Fruit & Vegetable Servings Per Day Last Seven Days: "
+    , toolTipTextValue3 = scales::label_percent(accuracy = .01)(pct)
+  )
+
+minYr <- unique(min(filtered_data$year))
+maxYr <- unique(max(filtered_data$year))
+
+# Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+filtered_dataTbl <- filtered_data |> 
+  dplyr::filter(year >= maxYr-3)  |>
+  dplyr::arrange(fips, year) |>
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = dplyr::case_when(
+        min(year) == max(year) ~ NA,
+        TRUE ~ pct[year == min(year)]
+    )
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
+  ) |>
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |>  
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("5+ Servings Per Day ", maxYr-3), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("5+ Servings Per Day ", maxYr), valueMaxYr) 
+
+
+figCap_plotTitle <- "Percentage of 8th Graders Reporting 5+ Daily Servings of Fruits and Vegetables (MSS)"
+figSubcap <- "Data Source: @mdeMinnesotaStudentSurvey"
+plotXCaption <- paste("Data Source:", mdeMinnesotaStudentSurvey) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
+
+# Plot
+scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
+#Table
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
+
+#Define the plot here so it is only wrote once
+p <- gbFun_plotTrendPDF(
+    filtered_data, "year", "pct", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", figCap_plotTitle,
+    plotXCaption, "", minYr, maxYr, scaleYContinuous,
+    gbVal_colorScheme, gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
+    )
+```
+
+<div>
+
+::: {.content-visible when-format="html"}
+```{r}
+#| fig-width: 8
+#| fig-height: 5
+#| warning: false
+if (knitr::is_html_output()) {
+  # Create the ggplot plot ggplot and then its wrapped within plotly function
+  gbFun_plotHTML(p, figCap_plotTitle)
+}
+```
+
+```{r}
+#| tbl-width: 8
+#| tbl-height: 4
+#| warning: false
+if (knitr::is_html_output()) {
+  gbFun_tableHTML(filtered_dataTbl, colList, figCap_plotTitle)
+}
+```
+:::
+
+::: {.content-visible when-format="pdf" layout="[[1, 1], [1]]"}
+```{r}
+#| warning: false
+#| fig-width: 9
+#| fig-height: 5
+if (!knitr::is_html_output()) {
+# Plots have to be printed
+print(p)
+}
+```
+
+```{r}
+#| warning: false
+#| tbl-width: 2
+#| tbl-height: 5
+if (!knitr::is_html_output()) {
+#Tables shouldn't be printed because the HTML table will display
+gbFun_tablePDF(filtered_dataTbl, colList)
+}
+```
+:::
+
+`{r} figSubcap`
+
+</div>
+
+`{r} figCap_plotTitle`
+:::
+
+## Physical Activity
+
+In 2022, many adults in the PNM region reported not getting any physical activity during their free time. This includes activities like walking, biking, or playing sports. Mahnomen County had the highest percentage of adults who did not get leisure-time exercise, with more than 30 percent. Norman County and the PMN CHS region also had high rates, with more than one in four adults reporting no activity. Polk County and Minnesota overall had lower rates, closer to one in five adults.
+
+Youth physical activity trends show a more encouraging picture. According to the Minnesota Student Survey, the percentage of 11th graders who were active for 60 minutes every day of the week increased statewide from 13.8 percent in 2019 to 16.5 percent in 2022. Polk County showed even greater improvement, rising from 14.5 percent in 2019 to 20.3 percent in 2022. This is an increase of 5.8 percentage points. Updated data for Mahnomen and Norman counties was not available.
+
+These findings suggest that while youth activity may be improving, adult physical inactivity remains a concern in several communities. Continued investment in safe walking paths, affordable fitness programs, and community events that promote movement could help address these disparities.
+
+::: {#fig-riskFactorLeisurePhysicalActivity}
+```{r}
+#| label: f_places2022LPA
+#| warning: false
+#| include: false
+
+# Filter the data by 'measureid'
+filtered_data <- f_places2022 |> 
+  dplyr::filter(measureid == "LPA") |> 
+  dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
+    toolTipTextHeader1 = "\nLocation: "
+    , toolTipTextValue1 = locationname
+    , toolTipTextHeader2 = "\nPrevalence: "
+    , toolTipTextValue2 = paste0(formattable::comma(data_value,0), " (", formattable::comma(low_confidence_limit,0), "-", formattable::comma(high_confidence_limit,0), ")")
+  )
+
+filtered_dataTbl <- filtered_data |> 
+    dplyr::arrange(locationid, year) |> 
+    dplyr::mutate(prevalenceType = ifelse(datavaluetypeid == "CrdPrv", "Crude", "Age-Adjusted"),
+                  tab = ifelse(datavaluetypeid == "CrdPrv", "Crude Prevalence", "Age-Adjusted Prevalence")) |> 
+    dplyr::select(prevalenceType, locationname, low_confidence_limit, data_value, high_confidence_limit, tab)
+  
+figCap_plotTitle <- paste(filtered_data$measure[1], filtered_data$brfssYr[1])
+figSubcap <- "Data Source: @cdc2024Places"
+plotXCaption <- paste("Data Source:",cdc2024Places) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
+
+#Table 
+colList <- list("Type", "Location", "Low CI", "Prevalence", "High CI") # Using a list accommodates tables with different column lengths.
+
+#Define the plot here so it is only wrote once
+p <- gbFun_plotSingleYrPDF(filtered_data, "locationname", "locationid","data_value", "toolTipTextHeader1", 
+    "toolTipTextValue1", "toolTipTextHeader2", "toolTipTextValue2", "data_value_type",
+    "low_confidence_limit", "high_confidence_limit", figCap_plotTitle, plotXCaption, "Prevalence",
+    gbVal_colorScheme, ifelse(knitr::is_html_output(), 10, 12)
+    )
+```
+
+<div>
+
+::: {.content-visible when-format="html"}
+```{r}
+#| fig-width: 8
+#| fig-height: 5 
+
+if (knitr::is_html_output()) {
+# Create the ggplot plot ggplot and then its wrapped within plotly function
+gbFun_plotHTML(p, figCap_plotTitle)
+}
+```
+
+```{r}
+#| tbl-width: 8
+#| tbl-height: 4
+#| warning: false
+#| results: asis
+if (knitr::is_html_output()) {
+  
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$tab)
+  
+# Generate tabset panels
+  cat("::: {.panel-tabset}\n")
+     for (tab in names(split_data)) {
+       cat(sprintf("## %s\n\n", tab))
+       
+       # Remove the 'tab' column from the current subset of data
+       current_data <- split_data[[tab]][, !names(split_data[[tab]]) %in% "tab"]
+       
+       print(htmltools::tagList(gbFun_tableHTML(current_data, colList, figCap_plotTitle)))
+     }
+  cat(":::\n")
+
+}
+```
+:::
+
+::: {.content-visible when-format="pdf" layout="[[1],[1, 1]]"}
+```{r}
+#| fig-width: 11
+#| fig-height: 3
+#| warning: false
+
+if (!knitr::is_html_output()) {
+# Plots have to be printed
+print(p)
+}
+```
+
+```{r}
+#| tbl-width: 4
+#| tbl-height: 3
+#| warning: false
+if (!knitr::is_html_output()) {
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Crude") |> dplyr::select(-tab), colList)
+}
+```
+
+```{r}
+#| tbl-width: 4
+#| tbl-height: 3
+#| warning: false
+if (!knitr::is_html_output()) {
+  gbFun_tablePDF(filtered_dataTbl |> dplyr::filter(prevalenceType == "Age-Adjusted") |> dplyr::select(-tab), colList)
+}
+```
+:::
+
+`{r} figSubcap`
+
+</div>
+
+`{r} figCap_plotTitle`
+:::
+
+::: {#fig-mss11Grade7Day1HourPhysicalActivity}
+```{r}
+#| label: mss11Grade7Day1HourPhysicalActivity
+#| warning: false
+#| include: false
+
+# Data Wrangling so it can just be referenced in the PDF and HTML output instead of writing it twice
+
+filtered_data <- f_mss |> 
+  dplyr::filter(mss_topic == "During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days", grade == 11)  |> 
+  dplyr::mutate(#Passed into ggplot (PDF Plot) but displayed in plotly (HMTL Plot)
+    toolTipTextHeader1 = "Year: "
+    , toolTipTextValue1 = year
+    , toolTipTextHeader2 = "\nLocation: "
+    , toolTipTextValue2 = location
+    , toolTipTextHeader3 = "\n11th Graders Active All 7 Days (60+ Min): "
+    , toolTipTextValue3 = scales::label_percent(accuracy = .01)(pct)
+  )
+
+minYr <- unique(min(filtered_data$year))
+maxYr <- unique(max(filtered_data$year))
+
+# Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+filtered_dataTbl <- filtered_data |> 
+  dplyr::filter(year >= maxYr-3)  |>
+  dplyr::arrange(fips, year) |>
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
+  ) |>
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |>  
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("Active All 7 Days ", maxYr-3), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("Active All 7 Days ", maxYr), valueMaxYr)   
+
+
+figCap_plotTitle <- "Percentage of 11th Graders Reporting 60+ Min Physical Activity for ALl 7 Days (MSS)"
+figSubcap <- "Data Source: @mdeMinnesotaStudentSurvey"
+plotXCaption <- paste("Data Source:", mdeMinnesotaStudentSurvey) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
+
+# Plot
+scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
+#Table
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
+
+#Define the plot here so it is only wrote once
+p <- gbFun_plotTrendPDF(
+    filtered_data, "year", "pct", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", figCap_plotTitle,
+    plotXCaption, "", minYr, maxYr, scaleYContinuous,
+    gbVal_colorScheme, gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
+    )
+```
+
+<div>
+
+::: {.content-visible when-format="html"}
+```{r}
+#| fig-width: 8
+#| fig-height: 5
+#| warning: false
+if (knitr::is_html_output()) {
+  # Create the ggplot plot ggplot and then its wrapped within plotly function
+  gbFun_plotHTML(p, figCap_plotTitle)
+}
+```
+
+```{r}
+#| tbl-width: 8
+#| tbl-height: 4
+#| warning: false
+if (knitr::is_html_output()) {
+  gbFun_tableHTML(filtered_dataTbl, colList, figCap_plotTitle)
+}
+```
+:::
+
+::: {.content-visible when-format="pdf" layout="[[1, 1], [1]]"}
+```{r}
+#| warning: false
+#| fig-width: 9
+#| fig-height: 5
+if (!knitr::is_html_output()) {
+# Plots have to be printed
+print(p)
+}
+```
+
+```{r}
+#| warning: false
+#| tbl-width: 2
+#| tbl-height: 5
+if (!knitr::is_html_output()) {
+#Tables shouldn't be printed because the HTML table will display
+gbFun_tablePDF(filtered_dataTbl, colList)
+}
+```
+:::
+
+`{r} figSubcap`
+
+</div>
+
+`{r} figCap_plotTitle`
+:::

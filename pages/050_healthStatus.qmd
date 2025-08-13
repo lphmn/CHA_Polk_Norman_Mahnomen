@@ -584,19 +584,28 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(pct)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
-  dplyr::group_by(fips) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy= 0.01)((pct) - dplyr::first(pct)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
   ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |> 
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("Child & Teen Check-up ", maxYr-1), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("Child & Teen Check-up ", maxYr), valueMaxYr)
 
 figCap_plotTitle <- "Child & Teen Check-Up / EPSDT Schedule (0-20 Year Olds)"
 figSubcap <- "Data Source: @pnmChildTeenCheckup"
@@ -605,7 +614,7 @@ plotXCaption <- paste("Data Source:",pnmChildTeenCheckup) #Since the x axis is p
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Percent", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 
 #Define the plot here so it is only wrote once
@@ -695,19 +704,41 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+# filtered_dataTbl <- filtered_data |> 
+#   dplyr::filter(year >= maxYr-1)  |>
+#   dplyr::arrange(fips, year) |>
+#   dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(pct)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
+#   dplyr::group_by(fips) |>
+#   dplyr::mutate(percentageChange = dplyr::case_when(
+#       year == maxYr ~ scales::label_percent(accuracy= 0.01)((pct) - dplyr::first(pct)) #Since there is only 2, most recent - next
+#       , TRUE ~ ""
+#     )
+#     , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(pct)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
-  dplyr::group_by(fips) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy= 0.01)((pct) - dplyr::first(pct)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
   ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |> 
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("Child & Teen Check-up ", maxYr-1), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("Child & Teen Check-up ", maxYr), valueMaxYr)
 
 figCap_plotTitle <- "Child and Teen Check−Up / EPSDT Schedule (3−20  Years Old)"
 figSubcap <- "Data Source: @pnmChildTeenCheckup"
@@ -716,7 +747,7 @@ plotXCaption <- paste("Data Source:",pnmChildTeenCheckup) #Since the x axis is p
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Percent", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 
 #Define the plot here so it is only wrote once
@@ -782,7 +813,6 @@ gbFun_tablePDF(filtered_dataTbl, colList)
 
 ## Prenatal Care
 
-
 Prenatal care is essential for ensuring the health and well-being of both mothers and their babies. Adequate prenatal care helps monitor the progress of the pregnancy, identify and manage potential health issues, and provide important health education to expectant mothers.
 
 In Minnesota, the percentage of mothers receiving late or inadequate prenatal care increased slightly from 8.7% in 2021 to 9.4% in 2022, representing a 0.7% increase. Data for Polk County and Norman County is not available for both years, likely due to suppression rules or the majority of births occurring out of state, possibly in North Dakota. Mahnomen County had a high rate of late or inadequate prenatal care at 29.9% in 2021, but data for 2022 is not available [@kidsCountPreNatalCare]. The Minnesota Department of Health is currently developing a new dashboard that should help address the data suppression limitations identified in the Kids Count data. Please check back in Q2 of 2025 for the most up-to-date information.
@@ -806,7 +836,7 @@ filtered_data <- f_kidsCountMotherPnc |>
       , toolTipTextHeader2 = "\nLocation: "
       , toolTipTextValue2 = location
       , toolTipTextHeader3 = "\nLate/Inadequate Prenatal Care: "
-      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(data)
+      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(pct)
      ) |> 
   dplyr::ungroup()
 
@@ -814,19 +844,41 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+# filtered_dataTbl <- filtered_data |> 
+#   dplyr::filter(year >= maxYr-1)  |>
+#   dplyr::arrange(fips, year) |>
+#   dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(data)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
+#   dplyr::group_by(fips) |>
+#   dplyr::mutate(percentageChange = dplyr::case_when(
+#       year == maxYr ~ scales::label_percent(accuracy= 0.01)((data) - dplyr::first(data)) #Since there is only 2, most recent - next
+#       , TRUE ~ ""
+#     )
+#     , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(data)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
-  dplyr::group_by(fips) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy= 0.01)((data) - dplyr::first(data)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
   ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |> 
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("Late/Inadequate PNC ", maxYr-1), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("Late/Inadequate PNC ", maxYr), valueMaxYr)
 
 figCap_plotTitle <- "Late/Inadequate Prenatal Care (PNC) for Mothers"
 figSubcap <- "Data Source: @kidsCountPreNatalCare"
@@ -834,11 +886,11 @@ plotXCaption <- paste("Data Source:",kidsCountPreNatalCare) #Since the x axis is
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Late/Inadequate PNC", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "data", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "pct", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", 
     figCap_plotTitle, plotXCaption, "Late/Inadequate PNC",minYr, maxYr, scaleYContinuous, gbVal_colorScheme, 
     gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -929,7 +981,7 @@ filtered_data <- f_pHDAPImmunization |>
       , toolTipTextHeader2 = "\nLocation: "
       , toolTipTextValue2 = location
       , toolTipTextHeader3 = "\nVaccine Percentage: "
-      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(percent)
+      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(pct)
      ) |> 
   dplyr::ungroup()
 
@@ -937,19 +989,41 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+# filtered_dataTbl <- filtered_data |> 
+#   dplyr::filter(year >= maxYr-1)  |>
+#   dplyr::arrange(fips, year) |>
+#   dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(percent)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
+#   dplyr::group_by(fips) |>
+#   dplyr::mutate(percentageChange = dplyr::case_when(
+#       year == maxYr ~ scales::label_percent(accuracy= 0.01)((percent) - dplyr::first(percent)) #Since there is only 2, most recent - next
+#       , TRUE ~ ""
+#     )
+#     , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(percent)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
-  dplyr::group_by(fips) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy= 0.01)((percent) - dplyr::first(percent)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+  dplyr::group_by(fips) |> 
+  dplyr::summarize(
+    Location = location
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
   ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, placeholder, percentageChange) # Ensure fields are ordered as desired. 
+  dplyr::distinct() |> 
+  dplyr::select(-fips) |> 
+  dplyr::mutate(
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference) |> 
+  dplyr::rename_with(~ paste0("Seven-Vaccine Series ", maxYr-1), valueMinYr)  |> 
+  dplyr::rename_with(~ paste0("Seven-Vaccine Series ", maxYr), valueMaxYr)
 
 figCap_plotTitle <- "Percentage of Polk, Norman, Mahnomen County\nChildren Ages 24−35 Months for the Seven-Vaccine Series"
 figSubcap <- "Data Source: @mdhPHDAPImmuizations"
@@ -957,12 +1031,12 @@ plotXCaption <- paste("Data Source:",mdhPHDAPImmuizations) #Since the x axis is 
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Percentage", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "percent", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "pct", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", 
     figCap_plotTitle, plotXCaption, "",minYr, maxYr, scaleYContinuous, gbVal_colorScheme, 
     gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -1039,7 +1113,7 @@ filtered_data <- f_pHDAPImmunization |>
       , toolTipTextHeader2 = "\nLocation: "
       , toolTipTextValue2 = location
       , toolTipTextHeader3 = "\nVaccine Percentage: "
-      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(percent)
+      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(pct)
      ) |> 
   dplyr::ungroup()
 
@@ -1047,25 +1121,53 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+# filtered_dataTbl <- filtered_data |> 
+#   dplyr::filter(year >= maxYr-1)  |>
+#   dplyr::arrange(fips, vaccine, year) |>
+#   dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(pct)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
+#   dplyr::group_by(fips, vaccine) |>
+#   dplyr::mutate(percentageChange = dplyr::case_when(
+#       year == maxYr ~ scales::label_percent(accuracy= 0.01)((pct) - dplyr::first(pct)) #Since there is only 2, most recent - next
+#       , TRUE ~ ""
+#     )
+#     , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(year, location, vaccine, placeholder, percentageChange) # Ensure fields are ordered as desired.
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, vaccine, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(percent)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
-  dplyr::group_by(fips, vaccine) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy= 0.01)((percent) - dplyr::first(percent)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
-  ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, vaccine, placeholder, percentageChange) # Ensure fields are ordered as desired.
+  dplyr::group_by(fips, vaccine) |> 
+  dplyr::summarize(
+    Location = location
+    , vaccine
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
+  ) |>  
+  dplyr::distinct() |> 
+  dplyr::select(Location, vaccine, valueMinYr, valueMaxYr, pctDifference) |>   
+  dplyr::mutate(
+    vaccine = vaccine,
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference, "Vaccine" = vaccine) |>    
+  dplyr::rename_with(~ as.character(maxYr-1), valueMinYr)   |>  
+  dplyr::rename_with(~ as.character(maxYr), valueMaxYr) #rename_with requires character vactor not a number  
 
-#split table into two groups for pdf output
-filtered_dataTblMM <- filtered_dataTbl |> 
-    dplyr::filter(location %in% c("Minnesota", "Mahnomen"))  # two locations
-filtered_dataTblNP <- filtered_dataTbl |> 
-    dplyr::filter(location %in% c("Norman", "Polk")) #split table into two groups with two locations
+#split table into one group for pdf output. This is done here because I can design the columns for when the report is rendered eaiser than trying to loop through the data and create different div/Quarto layouts
+filtered_dataTblMn <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Minnesota"))  
+filtered_dataTblMa <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Mahnomen"))
+filtered_dataTblNo <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Norman"))  
+filtered_dataTblPo <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Polk"))
 
 figCap_plotTitle <- "Percentage of Polk, Norman, Mahnomen County\nChildren Ages 24−35 Months for DTap, Hep A, Hep B, Hib, & MMR"
 figSubcap <- "Data Source: @mdhPHDAPImmuizations"
@@ -1073,11 +1175,11 @@ plotXCaption <- paste("Data Source:",mdhPHDAPImmuizations) #Since the x axis is 
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Vaccine", "Percentage", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # list("Year", "Location", "Vaccine", "Percentage", "% Change") # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "percent", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "pct", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", 
     figCap_plotTitle, plotXCaption, "",minYr, maxYr, scaleYContinuous, gbVal_colorScheme, 
     gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -1112,16 +1214,16 @@ if (knitr::is_html_output()) {
 #| results: asis
 if (knitr::is_html_output()) {
   
-  split_data <- split(filtered_dataTbl, filtered_dataTbl$vaccine)
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$Vaccine)
   
   # Generate tabset panels
   cat("::: {.panel-tabset}\n")
-     for (vaccine in names(split_data)) {
-       cat(sprintf("## %s\n\n", vaccine))
-      print(htmltools::tagList(gbFun_tableHTML(split_data[[vaccine]], colList, figCap_plotTitle)))
+     for (Vaccine in names(split_data)) {
+       cat(sprintf("## %s\n\n", Vaccine))
+      print(htmltools::tagList(gbFun_tableHTML(split_data[[Vaccine]], colList, figCap_plotTitle)))
      }
   cat(":::\n")
-
+  
 }
 ```
 :::
@@ -1145,7 +1247,7 @@ print(p)
 if (!knitr::is_html_output()) {
 #Tables shouldn't be printed because the HTML table will display
   
-gbFun_tablePDF(filtered_dataTblMM, colList)
+gbFun_tablePDF(filtered_dataTblMn, colList)
 }
 ```
 
@@ -1155,7 +1257,30 @@ gbFun_tablePDF(filtered_dataTblMM, colList)
 #| tbl-height: 5
 if (!knitr::is_html_output()) {
 #Tables shouldn't be printed because the HTML table will display
-gbFun_tablePDF(filtered_dataTblNP, colList)
+gbFun_tablePDF(filtered_dataTblMa, colList)
+}
+```
+:::
+
+::: {.content-visible when-format="pdf" layout="[[1, 1], [1]]"}
+```{r}
+#| warning: false
+#| tbl-width: 2
+#| tbl-height: 5
+if (!knitr::is_html_output()) {
+#Tables shouldn't be printed because the HTML table will display
+  
+gbFun_tablePDF(filtered_dataTblNo, colList)
+}
+```
+
+```{r}
+#| warning: false
+#| tbl-width: 2
+#| tbl-height: 5
+if (!knitr::is_html_output()) {
+#Tables shouldn't be printed because the HTML table will display
+gbFun_tablePDF(filtered_dataTblPo, colList)
 }
 ```
 :::
@@ -1185,7 +1310,7 @@ filtered_data <- f_pHDAPImmunization |>
       , toolTipTextHeader2 = "\nLocation: "
       , toolTipTextValue2 = location
       , toolTipTextHeader3 = "\nVaccine Percentage: "
-      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(percent)
+      , toolTipTextValue3 = scales::label_percent(accuracy= 0.01)(pct)
      ) |> 
   dplyr::ungroup()
 
@@ -1193,25 +1318,53 @@ minYr <- unique(min(filtered_data$year))
 maxYr <- unique(max(filtered_data$year))
 
 # Filtering data here handles table variations better and is easier to maintain than filtering in the function.
+# filtered_dataTbl <- filtered_data |> 
+#   dplyr::filter(year >= maxYr-1)  |>
+#   dplyr::arrange(fips, vaccine, year) |>
+#   dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(pct)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
+#   dplyr::group_by(fips, vaccine) |>
+#   dplyr::mutate(percentageChange = dplyr::case_when(
+#       year == maxYr ~ scales::label_percent(accuracy= 0.01)((pct) - dplyr::first(pct)) #Since there is only 2, most recent - next
+#       , TRUE ~ ""
+#     )
+#     , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::select(year, location, vaccine, placeholder, percentageChange) # Ensure fields are ordered as desired.
+
 filtered_dataTbl <- filtered_data |> 
   dplyr::filter(year >= maxYr-1)  |>
   dplyr::arrange(fips, vaccine, year) |>
-  dplyr::mutate(placeholder = scales::label_percent(accuracy= 0.01)(percent)) |>  #I wanted to use formattable but DT strips format when converted to HTML Table 
-  dplyr::group_by(fips, vaccine) |>
-  dplyr::mutate(percentageChange = dplyr::case_when(
-      year == maxYr ~ scales::label_percent(accuracy= 0.01)((percent) - dplyr::first(percent)) #Since there is only 2, most recent - next
-      , TRUE ~ ""
-    )
-    , percentageChange = ifelse(is.na(percentageChange), "--", percentageChange)
-  ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, location, vaccine, placeholder, percentageChange) # Ensure fields are ordered as desired.
+  dplyr::group_by(fips, vaccine) |> 
+  dplyr::summarize(
+    Location = location
+    , vaccine
+    , valueMinYr = pct[year == min(year)]
+    , valueMaxYr = pct[year == max(year)]
+    , pctDifference = valueMaxYr - valueMinYr
+    , .groups = 'drop'
+  ) |>  
+  dplyr::distinct() |> 
+  dplyr::select(Location, vaccine, valueMinYr, valueMaxYr, pctDifference) |>   
+  dplyr::mutate(
+    vaccine = vaccine,
+    valueMinYr = scales::label_percent(accuracy = .01)(valueMinYr)
+    , valueMaxYr = scales::label_percent(accuracy = .01)(valueMaxYr)
+    , pctDifference = scales::label_percent(accuracy = .01)(pctDifference)
+    ) |>
+  dplyr::rename("% Change" = pctDifference, "Vaccine" = vaccine) |>    
+  dplyr::rename_with(~ as.character(maxYr-1), valueMinYr)   |>  
+  dplyr::rename_with(~ as.character(maxYr), valueMaxYr) #rename_with requires character vactor not a number  
 
-#split table into two groups for pdf output
-filtered_dataTblMM <- filtered_dataTbl |> 
-    dplyr::filter(location %in% c("Minnesota", "Mahnomen"))  # two locations
-filtered_dataTblNP <- filtered_dataTbl |> 
-    dplyr::filter(location %in% c("Norman", "Polk")) #split table into two groups with two locations
+#split table into one group for pdf output. This is done here because I can design the columns for when the report is rendered eaiser than trying to loop through the data and create different div/Quarto layouts
+filtered_dataTblMn <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Minnesota"))  
+filtered_dataTblMa <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Mahnomen"))
+filtered_dataTblNo <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Norman"))  
+filtered_dataTblPo <- filtered_dataTbl |> 
+    dplyr::filter(Location %in% c("Polk"))
 
 figCap_plotTitle <- "Percentage of Polk, Norman, Mahnomen County\nChildren Ages 24−35 Months for PCV, Polio, Rotavirus, & Varicella"
 figSubcap <- "Data Source: @mdhPHDAPImmuizations"
@@ -1219,11 +1372,11 @@ plotXCaption <- paste("Data Source:",mdhPHDAPImmuizations) #Since the x axis is 
 # Plot
 scaleYContinuous = scales::label_percent()  # Format y-axis values with geography
 #Table
-colList <- list("Year", "Location", "Vaccine", "Percentage", "% Change") # Using a list accommodates tables with different column lengths.
+colList <- colnames(filtered_dataTbl) # Using a list accommodates tables with different column lengths.
 
 #Define the plot here so it is only wrote once
 p <- gbFun_plotTrendPDF(
-    filtered_data, "year", "percent", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
+    filtered_data, "year", "pct", "location", "fips", "toolTipTextHeader1", "toolTipTextValue1", 
     "toolTipTextHeader2", "toolTipTextValue2", "toolTipTextHeader3", "toolTipTextValue3", 
     figCap_plotTitle, plotXCaption, "",minYr, maxYr, scaleYContinuous, gbVal_colorScheme, 
     gbVal_shapeScheme, ifelse(knitr::is_html_output(), 10, 14)
@@ -1258,13 +1411,13 @@ if (knitr::is_html_output()) {
 #| results: asis
 if (knitr::is_html_output()) {
   
-  split_data <- split(filtered_dataTbl, filtered_dataTbl$vaccine)
+  split_data <- split(filtered_dataTbl, filtered_dataTbl$Vaccine)
   
   # Generate tabset panels
   cat("::: {.panel-tabset}\n")
-     for (vaccine in names(split_data)) {
-       cat(sprintf("## %s\n\n", vaccine))
-      print(htmltools::tagList(gbFun_tableHTML(split_data[[vaccine]], colList, figCap_plotTitle)))
+     for (Vaccine in names(split_data)) {
+       cat(sprintf("## %s\n\n", Vaccine))
+      print(htmltools::tagList(gbFun_tableHTML(split_data[[Vaccine]], colList, figCap_plotTitle)))
      }
   cat(":::\n")
 
@@ -1291,7 +1444,7 @@ print(p)
 if (!knitr::is_html_output()) {
 #Tables shouldn't be printed because the HTML table will display
   
-gbFun_tablePDF(filtered_dataTblMM, colList)
+gbFun_tablePDF(filtered_dataTblMn, colList)
 }
 ```
 
@@ -1301,7 +1454,30 @@ gbFun_tablePDF(filtered_dataTblMM, colList)
 #| tbl-height: 5
 if (!knitr::is_html_output()) {
 #Tables shouldn't be printed because the HTML table will display
-gbFun_tablePDF(filtered_dataTblNP, colList)
+gbFun_tablePDF(filtered_dataTblMa, colList)
+}
+```
+:::
+
+::: {.content-visible when-format="pdf" layout="[[1, 1], [1]]"}
+```{r}
+#| warning: false
+#| tbl-width: 2
+#| tbl-height: 5
+if (!knitr::is_html_output()) {
+#Tables shouldn't be printed because the HTML table will display
+  
+gbFun_tablePDF(filtered_dataTblNo, colList)
+}
+```
+
+```{r}
+#| warning: false
+#| tbl-width: 2
+#| tbl-height: 5
+if (!knitr::is_html_output()) {
+#Tables shouldn't be printed because the HTML table will display
+gbFun_tablePDF(filtered_dataTblPo, colList)
 }
 ```
 :::

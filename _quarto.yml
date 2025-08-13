@@ -68,6 +68,7 @@ format:
     link-external-icon: true
     link-external-newwindow: true
     number-sections: false
+    toc-location: left
      
 execute:
   echo: false

@@ -1,29 +1,97 @@
-fips,location,mss_topic,percentage,year
-99,Minnesota,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,0.626,2022
-27087,Mahnomen,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,NA,2022
-27107,Norman,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,NA,2022
-27119,Polk,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,0.608,2022
-27119,Polk,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.353,2016
-27119,Polk,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.409,2019
-27119,Polk,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.274,2022
-27087,Mahnomen,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.242,2016
-27087,Mahnomen,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.234,2019
-27087,Mahnomen,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.357,2022
-99,Minnesota,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.404,2016
-99,Minnesota,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.38,2019
-99,Minnesota,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.277,2022
-27107,Norman,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.461,2016
-27107,Norman,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",NA,2019
-27107,Norman,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",NA,2022
-27087,Mahnomen,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.303,2016
-27087,Mahnomen,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.287,2019
-27087,Mahnomen,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.364,2022
-99,Minnesota,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.231,2016
-99,Minnesota,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.24,2019
-99,Minnesota,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.267,2022
-27107,Norman,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.222,2016
-27107,Norman,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,NA,2019
-27107,Norman,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,NA,2022
-27119,Polk,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.27,2016
-27119,Polk,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.206,2019
-27119,Polk,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.236,2022
+fips,location,grade,mss_topic,pct,year
+99,Minnesota,11,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,0.626,2022
+27087,Mahnomen,11,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,NA,2022
+27107,Norman,11,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,NA,2022
+27119,Polk,11,% of 11th graders in the PNM service area who have not used alcohol: marijuana: and/or drugs in the past year,0.608,2022
+27119,Polk,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.353,2016
+27119,Polk,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.409,2019
+27119,Polk,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.274,2022
+27087,Mahnomen,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.242,2016
+27087,Mahnomen,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.234,2019
+27087,Mahnomen,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.357,2022
+99,Minnesota,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.404,2016
+99,Minnesota,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.38,2019
+99,Minnesota,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.277,2022
+27107,Norman,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",0.461,2016
+27107,Norman,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",NA,2019
+27107,Norman,9,"% of 9th Graders community cared about them ""quite a bit"" or ""very much""",NA,2022
+27087,Mahnomen,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.303,2016
+27087,Mahnomen,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.287,2019
+27087,Mahnomen,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.364,2022
+99,Minnesota,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.231,2016
+99,Minnesota,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.24,2019
+99,Minnesota,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.267,2022
+27107,Norman,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.222,2016
+27107,Norman,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,NA,2019
+27107,Norman,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,NA,2022
+27119,Polk,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.27,2016
+27119,Polk,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.206,2019
+27119,Polk,9,% of 9th Graders reported over the past two weeks: how often have you been bothered: feeling down: depressed or hopeless several days,0.236,2022
+27119,Polk,8,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.174,2022
+27119,Polk,9,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.171,2022
+27119,Polk,11,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.124,2022
+99,Minnesota,8,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.164,2022
+99,Minnesota,9,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.14,2022
+99,Minnesota,11,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.111,2022
+27087,Mahnomen,8,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",0.222,2022
+27107,Norman,8,"Servings of fruits, fruit juice, and vegetables per day during the last 7 days. (This is a computed variable based on cominations of responses of three other items.)",NA,2022
+27087,Mahnomen,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.257,2022
+27087,Mahnomen,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.368,2022
+27087,Mahnomen,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.32,2019
+27087,Mahnomen,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.246,2019
+27087,Mahnomen,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.195,2019
+27087,Mahnomen,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.158,2019
+27087,Mahnomen,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.282,2016
+27087,Mahnomen,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.235,2016
+27087,Mahnomen,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.136,2016
+27087,Mahnomen,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.163,2016
+27087,Mahnomen,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.329,2013
+27087,Mahnomen,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.213,2013
+27087,Mahnomen,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.208,2013
+27087,Mahnomen,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.17,2013
+99,Minnesota,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.216,2022
+99,Minnesota,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.219,2022
+99,Minnesota,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.203,2022
+27087,Mahnomen,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",NA,2022
+99,Minnesota,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.201,2019
+99,Minnesota,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.184,2019
+99,Minnesota,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.173,2019
+99,Minnesota,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.165,2022
+99,Minnesota,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.246,2016
+99,Minnesota,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.213,2016
+99,Minnesota,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.196,2016
+99,Minnesota,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.138,2019
+99,Minnesota,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.214,2013
+99,Minnesota,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.201,2013
+99,Minnesota,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.197,2013
+99,Minnesota,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.149,2016
+27107,Norman,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.241,2019
+27107,Norman,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.224,2019
+27107,Norman,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0,2019
+99,Minnesota,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.166,2013
+27107,Norman,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.25,2016
+27107,Norman,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.3,2016
+27107,Norman,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.286,2016
+27107,Norman,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.259,2019
+27107,Norman,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.301,2013
+27107,Norman,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.235,2013
+27107,Norman,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.227,2013
+27107,Norman,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.115,2016
+27119,Polk,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.269,2022
+27119,Polk,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.234,2022
+27119,Polk,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.22,2022
+27107,Norman,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.18,2013
+27119,Polk,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.263,2019
+27119,Polk,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.272,2016
+27119,Polk,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.217,2019
+27119,Polk,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.172,2019
+27107,Norman,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",NA,2022
+27119,Polk,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.198,2016
+27119,Polk,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.201,2016
+27119,Polk,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.203,2022
+27119,Polk,5,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.226,2013
+27119,Polk,8,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.272,2013
+27119,Polk,9,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.213,2013
+27119,Polk,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.145,2019
+27119,Polk,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.158,2016
+27119,Polk,11,"During the last 7 days, on how many days were you physically active for a total of AT LEAST 60 MINUTES PER DAY? 7 Days",0.194,2013

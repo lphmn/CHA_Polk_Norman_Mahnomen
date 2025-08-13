@@ -1,4 +1,4 @@
-"fips","geography","year","age","programGroup","enrolleesNumber","enrolleesPercent","dentalServiceNumber","dentalServicePercent","ci"
+fips,location,year,age,programGroup,enrolleesNumber,enrolleesPercent,dentalServiceNumber,dentalServicePercent,ci
 27087,"Mahnomen",2012,"All age groups combined","All Programs",2592,"n/a",935,0.361,"(34.2-37.9)"
 27087,"Mahnomen",2013,"All age groups combined","All Programs",2668,"n/a",912,0.342,"(32.4-36.0)"
 27087,"Mahnomen",2014,"All age groups combined","All Programs",2666,"n/a",902,0.338,"(31.7-36.0)"

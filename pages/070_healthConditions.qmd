@@ -46,19 +46,19 @@ These statistics highlight the widespread impact of cancer and the importance of
 
 By understanding the prevalence and impact of cancer in our communities, we can better tailor our efforts to support those affected and work towards reducing the incidence and mortality associated with this disease.
 
-+-----------+-----------------------------+------------------------------+
-| Location  | Number of Persons Living    | Percent of Population Living |
-|           |                             |                              |
-|           | with a History of of Cancer | with a History of Cancer     |
-+:=========:+:===========================:+:============================:+
-| Minnesota | 3,16,110                    | 5.5%                         |
-+-----------+-----------------------------+------------------------------+
-| Polk      | 1,880                       | 6.1%                         |
-+-----------+-----------------------------+------------------------------+
-| Norman    | 470                         | 7.3%                         |
-+-----------+-----------------------------+------------------------------+
-| Mahnomen  | 370                         | 6.9%                         |
-+-----------+-----------------------------+------------------------------+
++---------------+-----------------------------+------------------------------+
+| Location      | Number of Persons Living    | Percent of Population Living |
+|               |                             |                              |
+|               | with a History of of Cancer | with a History of Cancer     |
++:=============:+:===========================:+:============================:+
+| Minnesota     | 3,16,110                    | 5.5%                         |
++---------------+-----------------------------+------------------------------+
+| Polk          | 1,880                       | 6.1%                         |
++---------------+-----------------------------+------------------------------+
+| Norman        | 470                         | 7.3%                         |
++---------------+-----------------------------+------------------------------+
+| Mahnomen      | 370                         | 6.9%                         |
++---------------+-----------------------------+------------------------------+
 
 : Persons living with a history of of cancer by Location
 

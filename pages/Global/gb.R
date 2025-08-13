@@ -297,7 +297,7 @@ gbFun_tablePDF <- function(par_data, par_colList) {
     ) |> 
     kableExtra::kable_styling(
       latex_options = "striped"
-       , font_size = 10 # Adjust the font size as needed
+       , font_size = 8 # Adjust the font size as needed
       )
 }
 
