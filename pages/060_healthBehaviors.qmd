@@ -1306,7 +1306,7 @@ filtered_dataTbl <- filtered_data |>
   dplyr::rename_with(~ paste0("Active All 7 Days ", maxYr), valueMaxYr)   
 
 
-figCap_plotTitle <- "Percentage of 11th Graders Reporting 60+ Min Physical Activity for ALl 7 Days (MSS)"
+figCap_plotTitle <- "Percentage of 11th Graders Reporting 60+ Min Physical Activity for All 7 Days (MSS)"
 figSubcap <- "Data Source: @mdeMinnesotaStudentSurvey"
 plotXCaption <- paste("Data Source:", mdeMinnesotaStudentSurvey) #Since the x axis is passed into plotly, I am defining the x axis for the plot with the data source so when/if people use the plot in their work the data source is referenced ggplot does a a caption argument but it does not pass into plotly. If the caption should be after the legend, then ggplot caption can be used for the pdf version and annotation can be used in plotly, I'll just have to pass an extra argument into the plotly function.
 
