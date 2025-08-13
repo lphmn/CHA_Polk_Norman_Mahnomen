@@ -1,4 +1,6 @@
-# Introduction
+# Welcome
+
+## Introduction
 
 The Polk-Norman-Mahnomen Community Health Board (PNM CHB), governed by seven-members, is a multi-county community health services (CHS) entity responsible to provide local governmental public health services. Through delegation and sharing agreements, all powers and duties are delegated to the two-member health departments, Polk County Public Health and Norman-Mahnomen Public Health. We are pleased to present the 2022-2024 Community Health Assessment (CHA) to better understand health issues facing the communities of Polk, Norman and Mahnomen Counties.
 
@@ -16,8 +18,17 @@ The Community Health Assessment provides a quantitative and qualitative data sna
 ![](pages/Attachments/000_index/MAPP.png){fig-align="center" width="300"}
 :::
 
+## Acknowlegements
+
 Thank you to the individuals, organization, and partners who have been involved throughout the health assessment and planning process. A special thank you to Patrick Olson, Data Analyst, for assisting PNM CHS with gathering data from a variety of state and national sources in the development of a more comprehensive Community Health Assessment to meet public health accreditation standards and measures, Assessment and Surveillance Foundational Public Health capability and inform meaningful local action.
 
 Thank you to the community members and partners of Polk, Norman and Mahnomen Counties for participating in the community health surveys and conversations.
 
+## Disclaimer Statement
+
+The information presented on this website in this Community Health Assessment (CHA) is for general informational and planning purposes only. The data included in this report has been collected from a variety of sources, including public health agencies, healthcare institutions, governmental and community partners and local community surveys. While efforts have been made to ensure accuracy and completeness, the information is subject to change and may not reflect exhaustive, real-time health conditions.
+
+The Polk-Norman-Mahnomen CHB (Polk County Public Health and Norman-Mahnomen Public Health) are not responsible for errors, omissions, or misinterpretations of the data. Users of this report should verify information with relevant authorities before making any community health-related decisions. Additionally, the inclusion of any specific organizations, services, or resources does not imply endorsement. By accessing or using this CHA, you acknowledge that use are using this information at your discretion. This report does not contain personally identifiable information, and all data is presented in an aggregated format to maintain privacy and confidentiality in accordance with HIPAA regulations and other applicable privacy laws. 
+
+## Contact Information
 We welcome your continued feedback and engagement. Comments or questions regarding this report can be directed to: Sarah Reese, Polk-Norman-Mahnomen CHS Administrator at 218-281-3385.
