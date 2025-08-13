@@ -1,7 +1,5 @@
 # CHA_Polk_Norman_Mahnomen
 
-
-## Community Health Needs Assessment (CHA) – Polk, Norman, Mahnomen
 ### Project Overview
 This repository serves as a centralized location for data, documentation, and analysis related to Community Health Needs Assessments (CHNA) for Polk, Norman, and Mahnomen counties in Minnesota. It is designed to support public health professionals, community organizations, and stakeholders in understanding and addressing local health needs.
 ### Purpose
