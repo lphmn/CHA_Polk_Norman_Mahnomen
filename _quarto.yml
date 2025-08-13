@@ -57,6 +57,7 @@ format:
      - include-in-header.tex
     fig-pos: "H"
     link-citations: true
+    toc-title: "Table of Contents"
     #keep-tex: TRUE
     
   html:
@@ -69,6 +70,7 @@ format:
     link-external-newwindow: true
     number-sections: false
     toc-location: left
+    toc-title: "Page Navigation"
      
 execute:
   echo: false
@@ -76,7 +78,7 @@ execute:
 # if this isn't set globally default for date: will be published
 published-title: "Last updated"  
 
-toc-title: "Table of Contents"
+
 
 editor: visual
 
